@@ -3,20 +3,18 @@
  */
 public class WordTracker {
     private String word, soFar;
-    private int correct, incorrect;
+    private int incorrect;
     private final int maxErrors = 7;
 
     public WordTracker(String word) {
         this.word = word;
         this.soFar = createSoFar();
-        this.correct = 0;
         this.incorrect = 0;
     }
 
     public String getSoFar() {return this.soFar;}
     public String getSoFar(int i) {return getSoFar().substring(i, i+1);}
     public String getWord() {return this.word;}
-    public void increaseCorrect() {this.correct++;}
     public void increaseIncorrect() {this.incorrect++;}
 
     public String createSoFar() {
@@ -27,9 +25,7 @@ public class WordTracker {
         return blank;
     }
 
-    public boolean gameContinues() {
-        return this.correct < this.word.length() && this.incorrect < maxErrors;
-    }
+    public boolean gameContinues() {return !win() && !lose();}
 
     public boolean isNumber(String str) {
         try {
@@ -71,11 +67,10 @@ public class WordTracker {
             }
         }
         this.soFar = updated;
-        increaseCorrect();
     }
 
     public boolean win() {
-        return this.correct == this.word.length();
+        return getSoFar().equals(this.getWord());
     }
 
     public boolean lose() {
