@@ -8,9 +8,11 @@ public class GuessingGame {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         Reader read = new Reader();
-        ArrayList<String> words = read.readFile("ENTER-FILE-PATH-HERE");
+        ArrayList<String> words = read.readFile(
+                "ENTER-FILE-PATH-HERE"
+        );
 
-        WordTracker gameState = new WordTracker(words.get((int) (Math.random() * 1000)));
+        WordTracker gameState = new WordTracker(words.get((int) (Math.random() * words.size())));
 
         System.out.println("Welcome to Guess the Word! Enter anything to begin.");
         scan.nextLine();
@@ -38,8 +40,12 @@ public class GuessingGame {
                 if (index != -1) {
                     System.out.println("Correct!");
                 } else {
-                    System.out.println("Try again!");
                     gameState.increaseIncorrect();
+                    if (!gameState.gameContinues()) {
+                        break;
+                    } else {
+                        System.out.println("Try again!");
+                    }
                 }
                 System.out.println(gameState.getSoFar());
             }
